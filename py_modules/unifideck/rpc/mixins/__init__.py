@@ -18,8 +18,10 @@ Per-mixin scope:
 * ``CloudFailureRPCMixin``   — cloud-failure UX configuration;
 * ``ConfigValidationRPCMixin`` — config-validation status;
 * ``DownloadRPCMixin``       — download-queue management;
+* ``GameEnvRPCMixin``        — general per-game environment-variable overrides;
 * ``LaunchRPCMixin``         — launch / circuit breaker;
 * ``ObservabilityRPCMixin``  — metrics, watchdog, replay;
+* ``OptiScalerRPCMixin``     — per-game Frame Generation (OptiScaler) patch;
 * ``PlaytimeRPCMixin``       — per-game playtime stats;
 * ``SecurityRPCMixin``       — audit log + brute-force state;
 * ``StoreRPCMixin``          — auth + login state;
@@ -36,8 +38,10 @@ from .cloud_failure import CloudFailureRPCMixin
 from .cloud_save import CloudSaveRPCMixin
 from .config_validation import ConfigValidationRPCMixin
 from .download import DownloadRPCMixin
+from .game_env import GameEnvRPCMixin
 from .launch import LaunchRPCMixin
 from .observability import ObservabilityRPCMixin
+from .optiscaler import OptiScalerRPCMixin
 from .playtime import PlaytimeRPCMixin
 from .security import SecurityRPCMixin
 from .store import StoreRPCMixin
@@ -51,8 +55,10 @@ __all__ = [
     "CloudSaveRPCMixin",
     "ConfigValidationRPCMixin",
     "DownloadRPCMixin",
+    "GameEnvRPCMixin",
     "LaunchRPCMixin",
     "ObservabilityRPCMixin",
+    "OptiScalerRPCMixin",
     "PlaytimeRPCMixin",
     "SecurityRPCMixin",
     "StoreRPCMixin",
