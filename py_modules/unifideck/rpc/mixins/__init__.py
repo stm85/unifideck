@@ -16,6 +16,7 @@ Per-mixin scope:
 
 * ``ActionRPCMixin``         — ``unifideck://`` URI dispatch;
 * ``CloudFailureRPCMixin``   — cloud-failure UX configuration;
+* ``CompanionExecutablesRPCMixin`` — per-game companion-exe (trainer) list;
 * ``ConfigValidationRPCMixin`` — config-validation status;
 * ``DownloadRPCMixin``       — download-queue management;
 * ``GameEnvRPCMixin``        — general per-game environment-variable overrides;
@@ -36,6 +37,7 @@ from __future__ import annotations
 from .action import ActionRPCMixin
 from .cloud_failure import CloudFailureRPCMixin
 from .cloud_save import CloudSaveRPCMixin
+from .companion_executables import CompanionExecutablesRPCMixin
 from .config_validation import ConfigValidationRPCMixin
 from .download import DownloadRPCMixin
 from .game_env import GameEnvRPCMixin
@@ -53,6 +55,7 @@ __all__ = [
     "ActionRPCMixin",
     "CloudFailureRPCMixin",
     "CloudSaveRPCMixin",
+    "CompanionExecutablesRPCMixin",
     "ConfigValidationRPCMixin",
     "DownloadRPCMixin",
     "GameEnvRPCMixin",

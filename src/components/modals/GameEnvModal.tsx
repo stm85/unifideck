@@ -5,7 +5,7 @@
  * Opened from the "Environment variables…" item injected into the native
  * game context menu (see
  * {@link file://./../../lib/steam-bridge/app-context-menu-patch.ts}), next
- * to "Frame Generation (OptiScaler)…".
+ * to "Companion executables…" and "Frame Generation (OptiScaler)…".
  *
  * Functionally the same as Steam's ``VAR=value %command%`` Launch Options
  * convention (see ``docs/launch-options.md``), but persists across a Force
@@ -16,7 +16,7 @@
  * reads/merges the SAME ``games.<store>:<game_id>.env_overrides`` store) —
  * one place to set env vars per game, not two.
  *
- * Row-based add/remove, NOT a
+ * Row-based add/remove (mirrors {@link CompanionExecutablesModal}), NOT a
  * multi-line ``<textarea>``: a plain HTML ``<textarea>``/``<input>`` never
  * gets focus or triggers Steam's on-screen keyboard in this CEF gamepad UI
  * — only decky-ui's own ``TextField`` wires that up. A textarea LOOKS like
@@ -52,7 +52,7 @@ const rowStyle = {
   justifyContent: "space-between",
   gap: 8,
   width: "100%",
-  // BOTH minWidth: 0 on the row AND
+  // See CompanionExecutablesModal for why BOTH minWidth: 0 on the row AND
   // flex: "0 0 auto" on the trash button are required — without either,
   // the filename/key text gets squeezed to zero visible width by
   // DialogButton's own flex-grow: 1 default in this CEF build.

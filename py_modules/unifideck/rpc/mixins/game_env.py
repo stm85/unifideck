@@ -1,8 +1,8 @@
 """GameEnvRPCMixin — general per-game environment-variable overrides.
 
 Powers the "Environment variables…" item injected into the native game
-context menu, next to "Frame Generation (OptiScaler)…". General-purpose
-sibling of ``OptiScalerRPCMixin``'s
+context menu, next to "Companion executables…" and "Frame Generation
+(OptiScaler)…". General-purpose sibling of ``OptiScalerRPCMixin``'s
 ``optiscaler_env`` (which only reaches the fgmod patch subprocess) — these
 apply to the GAME'S OWN launch, exactly like Steam's ``VAR=value %command%``
 convention documented in ``docs/launch-options.md``, but:

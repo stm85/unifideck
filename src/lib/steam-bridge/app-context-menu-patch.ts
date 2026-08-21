@@ -1,8 +1,8 @@
 /**
- * app-context-menu-patch — inject "Change executable…", "Frame Generation
- * (OptiScaler)…", and "Environment variables…" into the native game context
- * menu (the gear / right-click menu with Add to Favorites, Manage,
- * Properties…).
+ * app-context-menu-patch — inject "Change executable…", "Companion
+ * executables…", "Frame Generation (OptiScaler)…", and "Environment
+ * variables…" into the native game context menu (the gear / right-click
+ * menu with Add to Favorites, Manage, Properties…).
  *
  * Technique ported from decky-steamgriddb's `contextMenuPatch.tsx`: resolve the
  * `LibraryContextMenu` component, `afterPatch` its `render` (+ the inner
@@ -13,9 +13,10 @@
  * - "Change executable…" is added only for an INSTALLED Unifideck shortcut
  *   whose store supports an executable override (gog / amazon / epic /
  *   gamevault — see `SUPPORTED_STORES`).
- * - "Frame Generation (OptiScaler)…" and "Environment variables…" are added
- *   for ANY installed Unifideck shortcut (neither touches a store's
- *   games.map exe column — see `optiscalerEligible`/`gameEnvEligible`).
+ * - "Companion executables…", "Frame Generation (OptiScaler)…", and
+ *   "Environment variables…" are added for ANY installed Unifideck
+ *   shortcut (neither touches a store's games.map exe column — see
+ *   `companionsEligible`/`optiscalerEligible`/`gameEnvEligible`).
  * Regular (non-Unifideck) Steam games are left untouched either way. The
  * patch only ADDS menu items; it never mutates the overview or launch
  * routing.
@@ -34,6 +35,7 @@ import { createElement } from "react";
 import i18n from "i18next";
 import { getUnifideckGame } from "../library-filters";
 import { ChangeExecutableModal } from "../../components/modals/ChangeExecutableModal";
+import { CompanionExecutablesModal } from "../../components/modals/CompanionExecutablesModal";
 import { OptiscalerModal } from "../../components/modals/OptiscalerModal";
 import { GameEnvModal } from "../../components/modals/GameEnvModal";
 
@@ -42,6 +44,8 @@ const SUPPORTED_STORES = new Set(["gog", "amazon", "epic", "gamevault"]);
 
 /** Stable key so re-renders can dedupe our injected item. */
 const MENU_ITEM_KEY = "unifideck-change-exe";
+/** Stable key for the "Companion executables…" item (see CompanionExecutablesRPCMixin). */
+const COMPANIONS_MENU_ITEM_KEY = "unifideck-companion-exes";
 /** Stable key for the "Frame Generation (OptiScaler)…" item (see OptiScalerRPCMixin). */
 const OPTISCALER_MENU_ITEM_KEY = "unifideck-optiscaler";
 /** Stable key for the "Environment variables…" item (see GameEnvRPCMixin). */
@@ -96,17 +100,39 @@ function openModal(appId: number): void {
   );
 }
 
-/** Every store may attach an OptiScaler patch — unlike "Change executable…"
- *  this isn't gated by ``SUPPORTED_STORES`` since patching just copies files
- *  into the resolved install dir (games.map ``work_dir``) rather than
- *  touching the exe column, so xCloud/Microsoft games are eligible too,
- *  provided they're an installed Unifideck shortcut. */
-function optiscalerEligible(
+/** Every store may attach companion executables — unlike "Change
+ *  executable…" this isn't gated by ``SUPPORTED_STORES`` since it doesn't
+ *  touch the games.map exe column at all, so xCloud/Microsoft games are
+ *  eligible too, provided they're an installed Unifideck shortcut. */
+function companionsEligible(
   appId: number,
 ): { store: string; gameId: string } | null {
   const game = getUnifideckGame(appId);
   if (!game || !game.storeGameId || !game.isInstalled) return null;
   return { store: game.store, gameId: game.storeGameId };
+}
+
+function openCompanionsModal(appId: number): void {
+  const g = companionsEligible(appId);
+  if (!g) return;
+  const title = resolveTitle(appId, g.gameId);
+  showModal(
+    createElement(CompanionExecutablesModal, {
+      store: g.store,
+      gameId: g.gameId,
+      gameTitle: title,
+      closeModal: () => {},
+    }),
+  );
+}
+
+/** Same eligibility as companions — any installed Unifideck shortcut, no
+ *  store restriction, since patching just copies files into the resolved
+ *  install dir (games.map ``work_dir``) rather than touching the exe column. */
+function optiscalerEligible(
+  appId: number,
+): { store: string; gameId: string } | null {
+  return companionsEligible(appId);
 }
 
 function openOptiscalerModal(appId: number): void {
@@ -123,12 +149,12 @@ function openOptiscalerModal(appId: number): void {
   );
 }
 
-/** Same eligibility as OptiScaler — env overrides are just a config key, no
- *  store-specific mechanism involved. */
+/** Same eligibility as companions/OptiScaler — env overrides are just a
+ *  config key, no store-specific mechanism involved. */
 function gameEnvEligible(
   appId: number,
 ): { store: string; gameId: string } | null {
-  return optiscalerEligible(appId);
+  return companionsEligible(appId);
 }
 
 function openGameEnvModal(appId: number): void {
@@ -164,6 +190,18 @@ function spliceItem(children: unknown[], appId: number): void {
       ),
     );
   }
+  if (companionsEligible(appId)) {
+    nodes.push(
+      createElement(
+        MenuItem,
+        {
+          key: COMPANIONS_MENU_ITEM_KEY,
+          onSelected: () => openCompanionsModal(appId),
+        },
+        i18n.t("play.companions.menuItem"),
+      ),
+    );
+  }
   if (optiscalerEligible(appId)) {
     nodes.push(
       createElement(
@@ -196,6 +234,7 @@ function spliceItem(children: unknown[], appId: number): void {
 function dedupe(children: unknown[]): void {
   for (const key of [
     MENU_ITEM_KEY,
+    COMPANIONS_MENU_ITEM_KEY,
     OPTISCALER_MENU_ITEM_KEY,
     GAME_ENV_MENU_ITEM_KEY,
   ]) {
@@ -245,6 +284,7 @@ function patchMenuItems(menuItems: unknown[], fallbackAppId: number): void {
   const appId = resolveItemsAppId(menuItems, fallbackAppId);
   if (
     !eligible(appId) &&
+    !companionsEligible(appId) &&
     !optiscalerEligible(appId) &&
     !gameEnvEligible(appId)
   ) {
