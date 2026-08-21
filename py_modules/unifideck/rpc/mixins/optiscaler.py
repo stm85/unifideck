@@ -1,7 +1,7 @@
 """OptiScalerRPCMixin — patch/unpatch Frame Generation (OptiScaler) per game.
 
 Powers the "Frame Generation (OptiScaler)…" item injected into the native
-game context menu. Replaces the broken
+game context menu, next to "Companion executables…". Replaces the broken
 workflow of pasting Decky-Framegen's ``~/fgmod/fgmod %command%`` into a
 Unifideck shortcut's Steam Launch Options: Unifideck shortcuts always point
 ``Exe`` at ``bin/unifideck-launcher`` with ``"<store>:<game_id>"`` in

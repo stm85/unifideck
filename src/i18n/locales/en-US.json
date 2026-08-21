@@ -397,7 +397,9 @@
       "signingInBattlenet": "Battle.net Sign-In",
       "signingInBattlenetMessage": "Opening the Battle.net client so you can sign in…",
       "installingBattlenet": "Installing via Battle.net",
-      "installingBattlenetMessage": "Opening Battle.net — press Install there to start the download for {{gameTitle}}."
+      "installingBattlenetMessage": "Opening Battle.net — press Install there to start the download for {{gameTitle}}.",
+      "launchWarning": "Launch Warning",
+      "companionStartFailed": "A companion executable for {{game_key}} could not be started. The game itself launched normally."
     },
     "updateComplete": "Update Complete!",
     "updateCompleteMessage": "{{title}} has been updated.",
@@ -787,6 +789,19 @@
       "changed": "Executable changed",
       "changeFailed": "Couldn't change executable",
       "reset": "Reset to default executable"
+    },
+    "companions": {
+      "menuItem": "Companion executables…",
+      "title": "Companion executables — {{game}}",
+      "subtitle": "Extra programs (trainers, cheat tools, utilities) launched alongside this game in the same Proton prefix. A companion failing to start never blocks the game.",
+      "add": "Add…",
+      "delayHint": "A minimum delay of 10s is always applied — starting alongside the game's very first launch can otherwise make it fail.",
+      "empty": "No companion executables added yet.",
+      "delaySeconds": "Delay: {{seconds}}s",
+      "added": "Companion added",
+      "addFailed": "Couldn't add companion executable",
+      "removed": "Companion removed",
+      "removeFailed": "Couldn't remove companion executable"
     },
     "optiscaler": {
       "menuItem": "Frame Generation (OptiScaler)…",

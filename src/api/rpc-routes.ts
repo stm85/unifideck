@@ -98,6 +98,11 @@ export const rpcRoutes = {
   listGameExecutables: "list_game_executables",
   setGameExecutable: "set_game_executable",
   resetGameExecutable: "reset_game_executable",
+  // Companion executables — trainers/utilities launched alongside the
+  // game in the same Proton prefix (CompanionExecutablesRPCMixin)
+  listCompanionExecutables: "list_companion_executables",
+  addCompanionExecutable: "add_companion_executable",
+  removeCompanionExecutable: "remove_companion_executable",
   // Frame Generation / OptiScaler patch (OptiScalerRPCMixin) — drives the
   // Decky-Framegen-installed ~/fgmod/fgmod wrapper with the correct game
   // install dir, bypassing its broken %command%-argv detection.

@@ -3,7 +3,8 @@
  *
  * Opened from the "Frame Generation (OptiScaler)…" item injected into the
  * native game context menu (see
- * {@link file://./../../lib/steam-bridge/app-context-menu-patch.ts}).
+ * {@link file://./../../lib/steam-bridge/app-context-menu-patch.ts}), next
+ * to "Companion executables…".
  *
  * This replaces pasting Decky-Framegen's ``~/fgmod/fgmod %command%`` into a
  * Unifideck shortcut's Steam Launch Options — that never worked, because a

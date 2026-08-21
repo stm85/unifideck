@@ -4,7 +4,8 @@ Covers the two layers:
 
 * ``launcher.dispatcher._resolve_game_env_overrides`` — reads
   ``games.<store>:<game_id>.env_overrides`` from user config into a flat
-  ``{NAME: value}`` dict, tolerating malformed entries.
+  ``{NAME: value}`` dict, tolerating malformed entries. General-purpose
+  sibling of ``_resolve_companion_executables``.
 * ``GameEnvRPCMixin`` — get/set persistence for the "Environment
   variables…" modal.
 """
